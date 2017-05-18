@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>gpx-parser</title>
+    <script src="js/gpx-parser.js"></script>
+    <script src="js/Chart.js"></script>
+</head>
+
+<body>
+    <canvas id="line" width="1000" height="500"></canvas>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+
+            gpx = new gpxParser();
+            gpx.parse();
+            var ctx = document.getElementById("line").getContext("2d");
+            var data = {
+                labels :gpx.cumulDistance,
+                datasets: [
+                    {
+                        label: "My First dataset",
+                        fillColor: "rgba(220,220,220,0.2)",
+                        strokeColor: "rgba(220,220,220,1)",
+                        pointColor: "rgba(220,220,220,1)",
+                        pointStrokeColor: "#fff",
+                        pointHighlightFill: "#fff",
+                        pointHighlightStroke: "rgba(220,220,220,1)",
+                        data: gpx.elevation
+                    }
+                ]
+            };
+            var myLineChart = new Chart(ctx , {
+    type: "line",
+    data: data,
+});
+
+        });
+    </script>
+</body>
+
+</html>
