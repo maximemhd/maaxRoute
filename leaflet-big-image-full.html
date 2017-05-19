@@ -2,8 +2,10 @@
   <!-- See also: http://kempe.net/blog/2014/06/14/leaflet-pan-zoom-image.html -->
   <head>
     <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css"></script>
+<link rel="stylesheet" href="js/leaflet-routing-machine/leaflet-routing-machine.css" />
   <script src="leaflet/leaflet.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-gpx/1.3.1/gpx.min.js"></script>
+<script src="js/leaflet-routing-machine/leaflet-routing-machine.js"></script>
     <style>
     #image-map {
       width: 80%;
@@ -45,11 +47,17 @@
     L.imageOverlay(url, bounds).addTo(map);
 
     // tell leaflet that the map is exactly as big as the image
-    map.setMaxBounds(bounds);
-	var gpx = 'pyramide.gpx'; // URL to your GPX file or the GPX itself
+    //map.setMaxBounds(bounds);
+	/*var gpx = 'pyramide.gpx'; // URL to your GPX file or the GPX itself
 	new L.GPX(gpx, {async: true}).on('loaded', function(e) {
 	  map.fitBounds(e.target.getBounds());
-	}).addTo(map);
+	}).addTo(map);*/
+L.Routing.control({
+  waypoints: [
+    L.latLng(0, 0),
+    L.latLng(100, 100)
+  ]
+}).addTo(map);
     </script>
 
   </body>
