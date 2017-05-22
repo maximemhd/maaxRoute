@@ -5,27 +5,40 @@
     <meta charset="UTF-8">
     <title>gpx-parser</title>
     <script src='js/jquery.js'></script>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css"
+    <!--<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css"
     integrity="sha512-07I2e+7D8p6he1SIM+1twR5TIrhUQn9+I6yjqD53JQjFiMf8EtC93ty0/5vJTZGF8aAocvHYNEDJajGdNx1IsQ=="
     crossorigin=""/>
-  <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"
+  <!--<script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"
     integrity="sha512-A7vV8IFfih/D732iSSKi20u/ooOfj/AGehOKq0f4vLT1Zr2Y+RX7C+w8A1gaSasGtRUZpF/NZgzSAu4/Gc41Lg=="
-    crossorigin=""></script>
-  <script src="js/gpx.js"></script>
+    crossorigin=""></script>-->
+  <script src="leaflet/leaflet.js"></script>
   <!--<script src="js/leaflet.filelayer.js"></script>-->
-  <script src="https://unpkg.com/leaflet-filelayer@0.6.0"></script> <!--charge fichier-->
-  <script src="https://unpkg.com/togeojson@0.14.2"></script>
+  <!--<script src="https://unpkg.com/leaflet-filelayer@0.6.0"></script> charge fichier-->
+  <script src="js/togeojson.js"></script>
   <script src='js/jquery.js'></script>
     <script src='js/script.js'></script>
   <script src='js/Path.Drag.js'></script>
+  <script src='js/Leaflet.ImageOverlay.Rotated.js'></script>
   <script src='js/Leaflet.Path.Transform.js'></script>
   <script src='js/Leaflet.Editable.js'></script>
     <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="leaflet/leaflet.css"/>
 </head>
 
 <body onload="">
  <div id="map"></div>
-
+ <div>
+ 	Overlay opacity:
+ 	<button onclick='setOverlayOpacity(0.1)'>10%</button>
+ 	<button onclick='setOverlayOpacity(0.2)'>20%</button>
+ 	<button onclick='setOverlayOpacity(0.3)'>30%</button>
+ 	<button onclick='setOverlayOpacity(0.4)'>40%</button>
+ 	<button onclick='setOverlayOpacity(0.5)'>50%</button>
+ 	<button onclick='setOverlayOpacity(0.6)'>60%</button>
+ 	<button onclick='setOverlayOpacity(0.7)'>70%</button>
+ 	<button onclick='setOverlayOpacity(0.8)'>80%</button>
+ 	<button onclick='setOverlayOpacity(0.9)'>90%</button>
+ 	</div>
 </body>
 
 <script>
@@ -49,42 +62,50 @@
             }
 */
 // create the slippy map
-var map = L.map('map', {
-  minZoom: -5,
-  maxZoom: 4,
-  center: [0, 0],
-  zoom: 1,
-  crs: L.CRS.Simple
-});
+var map = new L.Map('map');
+		var positron = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
+			attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
+			maxNativeZoom: 18,
+			maxZoom:24
+		}).addTo(map);
 
-// dimensions of the image
-var w = 2550,
-    h = 3509,
-    url = 'co-le-senequet-md.jpg';
+var point1 = L.latLng( 49.083536, -1.607909),
+		    point2 = L.latLng(49.083536, -1.604648),
+		    point3 = L.latLng(49.08719, -1.604583);
 
-// calculate the edges of the image, in coordinate space
-var southWest = map.unproject([0, h], map.getMaxZoom()-1);
-var northEast = map.unproject([w, 0], map.getMaxZoom()-1);
-var bounds = new L.LatLngBounds(southWest, northEast);
-//var bounds = [[-26.5,-25], [1021.5,1023]];
+		var marker1 = L.marker(point1, {draggable: true} ).addTo(map),
+		    marker2 = L.marker(point2, {draggable: true} ).addTo(map),
+		    marker3 = L.marker(point3, {draggable: true} ).addTo(map);
 
 
-var bounds = trbl(0,w,h,0);
-//imageBounds = trbl(0,w/2,h/2,-w/2);
+		var	bounds = new L.LatLngBounds(point1, point2).extend(point3);
+		map.fitBounds(bounds);
+		var overlay = L.imageOverlay.rotated("co-le-senequet-md.jpg", point1, point2, point3, {
+			opacity: 0.4,
+			interactive: true
+		});
 
+		function repositionImage() {
+			overlay.reposition(marker1.getLatLng(), marker2.getLatLng(), marker3.getLatLng());
+		};
 
+		marker1.on('drag dragend', repositionImage);
+		marker2.on('drag dragend', repositionImage);
+		marker3.on('drag dragend', repositionImage);
 
-/*} else {
-// use tiles
-var mapBounds = new L.LatLngBounds(
-  map.unproject([0, 1792], mapMaxZoom),
-  map.unproject([2560, 0], mapMaxZoom));
+// 		var c = overlay.getCanvas2DContext()
 
-map.setMaxBounds(mapBounds);*/
-
-// add the image overlay,
-// so that it covers the entire map
-L.imageOverlay(url, bounds).addTo(map);
+		map.addLayer(overlay);
+		overlay.on('dblclick',function (e) {
+			console.log('Double click on image.');
+			e.stop();
+		});
+		overlay.on('click',function (e) {
+			console.log('Click on image.');
+		});
+		function setOverlayOpacity(opacity) {
+			overlay.setOpacity(opacity);
+		}
 
 trace_gpx_image();
 

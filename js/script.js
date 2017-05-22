@@ -31,7 +31,7 @@ map.fitBounds(polyline.getBounds());
 
 function trace_gpx_image(){
   var gpx_data;
-  $.ajax('pyramide.gpx').done(function(xml) {
+  $.ajax('CO_MD_Le_Senequet.gpx').done(function(xml) {
     gpx_data = toGeoJSON.gpx(xml);
     console.log(gpx_data);
 
