@@ -96,7 +96,7 @@ reader.readAsText(file);
 
 
 }
-
+var overlay; //image overlay
 function readImage(e) {
   var file = e.target.files[0];
   if (!file) {
@@ -117,7 +117,7 @@ var point1 = L.latLng( 49.083536, -1.607909),
 
 		var	bounds = new L.LatLngBounds(point1, point2).extend(point3);
 		map.fitBounds(bounds);
-		var overlay = L.imageOverlay.rotated(file.name, point1, point2, point3, {
+		 overlay = L.imageOverlay.rotated(file.name, point1, point2, point3, {
 			opacity: 0.4,
 			interactive: true
 		});
@@ -128,15 +128,39 @@ var point1 = L.latLng( 49.083536, -1.607909),
 		marker2.on('drag dragend', repositionImage);
 		marker3.on('drag dragend', repositionImage);
 
-
+    var switch_marker = 1;
 		map.addLayer(overlay);
 		overlay.on('dblclick',function (e) {
 			console.log('Double click on image.');
-			e.stop();
+      //cache les markers
+      if(switch_marker==0){
+
+        marker1 = L.marker(point1, {draggable: true} ).addTo(map);
+    		    marker2 = L.marker(point2, {draggable: true} ).addTo(map);
+    		    marker3 = L.marker(point3, {draggable: true} ).addTo(map);
+            marker1.on('drag dragend', repositionImage);
+        		marker2.on('drag dragend', repositionImage);
+        		marker3.on('drag dragend', repositionImage);
+        switch_marker=1
+      }
+      else{
+        map.removeLayer(marker1);
+        map.removeLayer(marker2);
+        map.removeLayer(marker3);
+        switch_marker =0;
+      }
+
+			//e.stop();
 		});
 		overlay.on('click',function (e) {
 			console.log('Click on image.');
 		});
+
+
+
+    function repositionImage() {
+      overlay.reposition(marker1.getLatLng(), marker2.getLatLng(), marker3.getLatLng());
+    };
 
   };
 reader.readAsDataURL(file);
@@ -147,11 +171,6 @@ reader.readAsDataURL(file);
 function setOverlayOpacity(opacity) {
   overlay.setOpacity(opacity);
 }
-
-
-function repositionImage() {
-  overlay.reposition(marker1.getLatLng(), marker2.getLatLng(), marker3.getLatLng());
-};
 
 function trbl(top,right,bottom,left) {
   return [[bottom,left],[top,right]];;
