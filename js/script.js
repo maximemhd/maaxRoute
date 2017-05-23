@@ -132,7 +132,9 @@ function readImage(e) {
 
         var bounds = new L.LatLngBounds(point1, point2).extend(point3);
         map.fitBounds(bounds);
-        overlay = L.imageOverlay.rotated(file.name, point1, point2, point3, {
+        console.log(file);
+        console.log(contents);
+        overlay = L.imageOverlay.rotated(contents, point1, point2, point3, {
             opacity: 0.4,
             interactive: true
         });
