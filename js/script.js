@@ -152,26 +152,10 @@ function readImage(e) {
                 i++;
             } else {
                 //alert('3 markers');
-
             }
         });
 
-
-
-
-        /*    var point1 = L.latLng(49.083536, -1.607909),
-                point2 = L.latLng(49.083536, -1.604648),
-                point3 = L.latLng(49.08719, -1.604583);
-
-            var marker1 = L.marker(point1, {
-                    draggable: true
-                }).addTo(map),
-                marker2 = L.marker(point2, {
-                    draggable: true
-                }).addTo(map),
-                marker3 = L.marker(point3, {
-                    draggable: true
-                }).addTo(map);*/
+        // var point1 = L.latLng(49.083536, -1.607909)
 
         function display_image() {
             var bounds = new L.LatLngBounds(point1, point2).extend(point3);
@@ -182,7 +166,6 @@ function readImage(e) {
                 opacity: 0.4,
                 interactive: true
             });
-
 
 
             marker1.on('drag dragend', repositionImage);
@@ -227,6 +210,9 @@ function readImage(e) {
 
 
         function repositionImage() {
+          point1 = marker1.getLatLng();
+          point2 = marker2.getLatLng();
+          point3 = marker3.getLatLng();
             overlay.reposition(marker1.getLatLng(), marker2.getLatLng(), marker3.getLatLng());
         };
 
