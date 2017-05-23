@@ -85,10 +85,10 @@ function readGPXFile(e) {
     if (!file) {
         return;
     }
-    if(file.name.substring(file.name.lastIndexOf('.'))!=".gpx"){
-      //Alerte sur le format du fichier
-      alert('Choisir un fichier gpx');
-      return;
+    if (file.name.substring(file.name.lastIndexOf('.')) != ".gpx") {
+        //Alerte sur le format du fichier
+        alert('Choisir un fichier gpx');
+        return;
     }
     var reader = new FileReader();
     reader.onload = function(e) {
@@ -106,77 +106,123 @@ function readImage(e) {
     if (!file) {
         return;
     }
-    if(file.name.substring(file.name.lastIndexOf('.'))!=".jpg" && file.name.substring(file.name.lastIndexOf('.'))!=".png"){
-      //Alerte sur le format du fichier
-      alert('Choisir un fichier jpg ou png');
-      return;
+    if (file.name.substring(file.name.lastIndexOf('.')) != ".jpg" &&
+        file.name.substring(file.name.lastIndexOf('.')) != ".png" &&
+        file.name.substring(file.name.lastIndexOf('.')) != ".JPG" &&
+        file.name.substring(file.name.lastIndexOf('.')) != ".PNG") {
+        //Alerte sur le format du fichier
+        alert('Choisir un fichier jpg ou png');
+        return;
     }
     var reader = new FileReader();
     reader.onload = function(e) {
         var contents = e.target.result;
         //console.log(file.name);
-        var point1 = L.latLng(49.083536, -1.607909),
-            point2 = L.latLng(49.083536, -1.604648),
-            point3 = L.latLng(49.08719, -1.604583);
 
-        var marker1 = L.marker(point1, {
-                draggable: true
-            }).addTo(map),
-            marker2 = L.marker(point2, {
-                draggable: true
-            }).addTo(map),
-            marker3 = L.marker(point3, {
-                draggable: true
-            }).addTo(map);
+        var i = 0;
+        var point1, point2, point3;
+        var marker1, marker2, marker3;
+        map.on('click', function(e) {
+            if (i < 3) {
+                switch (i) {
+                    case 0:
+                        marker1 = new L.marker(e.latlng, {
+                            draggable: true
+                        }).addTo(map);
+                        point1 = e.latlng;
+                        //console.log(point1);
+                        //console.log(L.latLng(49.083536, -1.607909))
+                        break;
+                    case 1:
+                        marker2 = new L.marker(e.latlng, {
+                            draggable: true
+                        }).addTo(map);
+                        point2 = e.latlng;
+                        break;
+                    case 2:
+                        marker3 = new L.marker(e.latlng, {
+                            draggable: true
+                        }).addTo(map);
+                        point3 = e.latlng;
+                        display_image();
+                        break;
+                    default:
+                        alert("erreur");
+                }
+                i++;
+            } else {
+                //alert('3 markers');
 
-
-        var bounds = new L.LatLngBounds(point1, point2).extend(point3);
-        map.fitBounds(bounds);
-        console.log(file);
-        console.log(contents);
-        overlay = L.imageOverlay.rotated(contents, point1, point2, point3, {
-            opacity: 0.4,
-            interactive: true
+            }
         });
 
 
 
-        marker1.on('drag dragend', repositionImage);
-        marker2.on('drag dragend', repositionImage);
-        marker3.on('drag dragend', repositionImage);
 
-        var switch_marker = 1;
-        map.addLayer(overlay);
-        overlay.on('dblclick', function(e) {
-            console.log('Double click on image.');
-            //cache les markers
-            if (switch_marker == 0) {
+        /*    var point1 = L.latLng(49.083536, -1.607909),
+                point2 = L.latLng(49.083536, -1.604648),
+                point3 = L.latLng(49.08719, -1.604583);
 
-                marker1 = L.marker(point1, {
+            var marker1 = L.marker(point1, {
                     draggable: true
-                }).addTo(map);
+                }).addTo(map),
                 marker2 = L.marker(point2, {
                     draggable: true
-                }).addTo(map);
+                }).addTo(map),
                 marker3 = L.marker(point3, {
                     draggable: true
-                }).addTo(map);
-                marker1.on('drag dragend', repositionImage);
-                marker2.on('drag dragend', repositionImage);
-                marker3.on('drag dragend', repositionImage);
-                switch_marker = 1
-            } else {
-                map.removeLayer(marker1);
-                map.removeLayer(marker2);
-                map.removeLayer(marker3);
-                switch_marker = 0;
-            }
+                }).addTo(map);*/
 
-            //e.stop();
-        });
-        overlay.on('click', function(e) {
-            console.log('Click on image.');
-        });
+        function display_image() {
+            var bounds = new L.LatLngBounds(point1, point2).extend(point3);
+            map.fitBounds(bounds);
+            console.log(file);
+            console.log(contents);
+            overlay = L.imageOverlay.rotated(contents, point1, point2, point3, {
+                opacity: 0.4,
+                interactive: true
+            });
+
+
+
+            marker1.on('drag dragend', repositionImage);
+            marker2.on('drag dragend', repositionImage);
+            marker3.on('drag dragend', repositionImage);
+
+            var switch_marker = 1;
+            map.addLayer(overlay);
+            overlay.on('dblclick', function(e) {
+                console.log('Double click on image.');
+                //cache les markers
+                if (switch_marker == 0) {
+
+                    marker1 = L.marker(point1, {
+                        draggable: true
+                    }).addTo(map);
+                    marker2 = L.marker(point2, {
+                        draggable: true
+                    }).addTo(map);
+                    marker3 = L.marker(point3, {
+                        draggable: true
+                    }).addTo(map);
+                    marker1.on('drag dragend', repositionImage);
+                    marker2.on('drag dragend', repositionImage);
+                    marker3.on('drag dragend', repositionImage);
+                    switch_marker = 1
+                } else {
+                    map.removeLayer(marker1);
+                    map.removeLayer(marker2);
+                    map.removeLayer(marker3);
+                    switch_marker = 0;
+                }
+
+                //e.stop();
+            });
+            overlay.on('click', function(e) {
+                console.log('Click on image.');
+            });
+        }
+
 
 
 
