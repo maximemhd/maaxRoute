@@ -40,11 +40,7 @@ function trace_gpx_image(){
     for (var i=0; i<gpx_data.features[0].geometry.coordinates.length;i++){
       lon = gpx_data.features[0].geometry.coordinates[i][0];
       lat = gpx_data.features[0].geometry.coordinates[i][1];
-      //var x =  (1000/360.0) * (180.0 + parseFloat(lon));
-      //var y =  (1000/180.0) * (90.0 - parseFloat(lat));
       latlngs.push([lat, lon]);
-      //latlngs.push([x, y]);
-
     }
 
 
@@ -54,13 +50,6 @@ var polyline = L.polyline(latlngs, {color: 'green'}).addTo(map);
 polyline.dragging.enable();
 
 
-
-//map.fitBounds(polyline.getBounds());
-
-    //var myLayer = L.geoJSON(gpx_data.features,{onEachFeature: onEachFeature}).addTo(map);
-    //myLayer.addData(gpx_data, {draggable: true});
-    //myLayer.dragging.enable();
-    //map.fitBounds(myLayer.target.getBounds());
   });
 }
 
