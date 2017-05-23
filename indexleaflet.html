@@ -42,101 +42,25 @@
  	<button onclick='setOverlayOpacity(0.8)'>80%</button>
  	<button onclick='setOverlayOpacity(0.9)'>90%</button>
  	</div>
+<input type="file" id="gpx-input" />
+<input type="file" id="image-input" />
 </body>
 
 <script>
-// initialize the map on the "map" div with a given center and zoom
-/*var map = L.map('map', {
-    center: [40.712216, -74.22655],
-    zoom: 13,
-    editable: true
-});
 
-  mapLink =
-            '<a href="http://openstreetmap.org">OpenStreetMap</a>';
-        L.tileLayer(
-            'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; ' + mapLink + ' Contributors',
-            maxZoom: 18,
-            }).addTo(map);
-*/
+document.getElementById('image-input')
+  .addEventListener('change', readImage, false);
+document.getElementById('gpx-input')
+  .addEventListener('change', readGPXFile, false);
+
 // create the slippy map
-var map = new L.Map('map');
+var map = new L.Map('map').setView([48,-1],5);
 		var positron = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
 			attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
 			maxNativeZoom: 18,
 			maxZoom:24
 		}).addTo(map);
 
-var point1 = L.latLng( 49.083536, -1.607909),
-		    point2 = L.latLng(49.083536, -1.604648),
-		    point3 = L.latLng(49.08719, -1.604583);
-
-		var marker1 = L.marker(point1, {draggable: true} ).addTo(map),
-		    marker2 = L.marker(point2, {draggable: true} ).addTo(map),
-		    marker3 = L.marker(point3, {draggable: true} ).addTo(map);
-
-
-		var	bounds = new L.LatLngBounds(point1, point2).extend(point3);
-		map.fitBounds(bounds);
-		var overlay = L.imageOverlay.rotated("co-le-senequet-md.jpg", point1, point2, point3, {
-			opacity: 0.4,
-			interactive: true
-		});
-
-		function repositionImage() {
-			overlay.reposition(marker1.getLatLng(), marker2.getLatLng(), marker3.getLatLng());
-		};
-
-		marker1.on('drag dragend', repositionImage);
-		marker2.on('drag dragend', repositionImage);
-		marker3.on('drag dragend', repositionImage);
-
-
-		map.addLayer(overlay);
-		overlay.on('dblclick',function (e) {
-			console.log('Double click on image.');
-			e.stop();
-		});
-		overlay.on('click',function (e) {
-			console.log('Click on image.');
-		});
-		function setOverlayOpacity(opacity) {
-			overlay.setOpacity(opacity);
-		}
-
-trace_gpx_image();
-
-/*var imageUrl = 'http://www.lib.utexas.edu/maps/historical/newark_nj_1922.jpg',
-    imageBounds = [[40.712216, -74.22655], [40.773941, -74.12544]];
-L.imageOverlay(imageUrl, imageBounds).addTo(map);*/
-
-
-/*var gpx = 'pyramide.gpx'; // URL to your GPX file or the GPX itself
-new L.GPX(gpx, {async: true}).on('loaded', function(e) {
-  map.fitBounds(e.target.getBounds());
-}).addTo(map);*/
-
-var style = {color:'red', opacity: 1.0, fillOpacity: 1.0, weight: 2, clickable: false};
-/*L.Control.fileLayerLoad({
-     // Allows you to use a customized version of L.geoJson.
-     // For example if you are using the Proj4Leaflet leaflet plugin,
-     // you can pass L.Proj.geoJson and load the files into the
-     // L.Proj.GeoJson instead of the L.geoJson.
-     layer: L.geoJson,
-     // See http://leafletjs.com/reference.html#geojson-options
-     layerOptions: {style: {color:'red'}},
-     // Add to map after loading (default: true) ?
-     addToMap: true,
-     // File size limit in kb (default: 1024) ?
-     fileSizeLimit: 1024,
-     // Restrict accepted file formats (default: .geojson, .kml, and .gpx) ?
-     formats: [
-         '.geojson',
-         '.kml',
-         '.gpx'
-     ]
- }).addTo(map);*/
 
 </script>
 
