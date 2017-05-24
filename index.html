@@ -49,22 +49,7 @@
         maxZoom: 24
     }).addTo(map);
 
-// start with an array of easy buttons
-var buttons = [ L.easyButton( '<span class="opacity">25%</span>', function(){
-setOverlayOpacity(0.25)
-}),
-                L.easyButton( '<span class="opacity">50%</span>', function(){
-              setOverlayOpacity(0.5)
-            }),
-                L.easyButton( '<span class="opacity">75%</span>', function(){
-              setOverlayOpacity(0.75)
-            }),
-            L.easyButton( '<span class="opacity">100%</span>', function(){
-           setOverlayOpacity(1)
-           })];
 
-// build a toolbar with them
-L.easyBar(buttons).addTo(map);
 </script>
 
 

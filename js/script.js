@@ -178,6 +178,24 @@ function readImage(e) {
                 interactive: true
             });
 
+            //ajout boutons opacité sur la carte
+            // start with an array of easy buttons
+            var buttons = [ L.easyButton( '<span class="opacity">25%</span>', function(){
+            setOverlayOpacity(0.25)
+            }),
+                            L.easyButton( '<span class="opacity">50%</span>', function(){
+                          setOverlayOpacity(0.5)
+                        }),
+                            L.easyButton( '<span class="opacity">75%</span>', function(){
+                          setOverlayOpacity(0.75)
+                        }),
+                        L.easyButton( '<span class="opacity">100%</span>', function(){
+                       setOverlayOpacity(1)
+                       })];
+
+            // build a toolbar with them
+            L.easyBar(buttons).addTo(map);
+
             marker1.on('drag dragend', repositionImage);
             marker2.on('drag dragend', repositionImage);
             marker3.on('drag dragend', repositionImage);
