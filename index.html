@@ -31,13 +31,6 @@
 
 <body onload="">
     <div id="map"></div>
-    <div id="button">
-        Overlay opacity:
-        <button onclick='setOverlayOpacity(0.25)'>25%</button>
-        <button onclick='setOverlayOpacity(0.5)'>50%</button>
-        <button onclick='setOverlayOpacity(0.75)'>75%</button>
-        <button onclick='setOverlayOpacity(1)'>100%</button>
-    </div>
     <input type="file" id="gpx-input" /><br>
     <input type="file" id="image-input" />
 </body>
@@ -55,6 +48,23 @@
         maxNativeZoom: 18,
         maxZoom: 24
     }).addTo(map);
+
+// start with an array of easy buttons
+var buttons = [ L.easyButton( '<span class="opacity">25%</span>', function(){
+setOverlayOpacity(0.25)
+}),
+                L.easyButton( '<span class="opacity">50%</span>', function(){
+              setOverlayOpacity(0.5)
+            }),
+                L.easyButton( '<span class="opacity">75%</span>', function(){
+              setOverlayOpacity(0.75)
+            }),
+            L.easyButton( '<span class="opacity">100%</span>', function(){
+           setOverlayOpacity(1)
+           })];
+
+// build a toolbar with them
+L.easyBar(buttons).addTo(map);
 </script>
 
 

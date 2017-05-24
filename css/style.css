@@ -34,3 +34,7 @@ html, body,{
         overflow: auto;
     }
 }
+
+.opacity{
+  font-size: 0.7em;
+}
