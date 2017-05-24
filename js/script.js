@@ -82,6 +82,7 @@ function load_gpx(contents) {
 
 function readGPXFile(e) {
     var file = e.target.files[0];
+    console.log(file);
     if (!file) {
         return;
     }
@@ -232,6 +233,7 @@ function readImage(e) {
             pg.on('drag dragend', function(e) {
               var geopg = pg.toGeoJSON();
               console.log(geopg);
+              switch_marker = 1;
               map.removeLayer(marker1);
               map.removeLayer(marker2);
               map.removeLayer(marker3);

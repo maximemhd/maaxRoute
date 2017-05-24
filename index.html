@@ -12,6 +12,7 @@
     <script src='js/easy-button.js'></script> <!-- Pour ajouter des bouttons sur la carte-->
     <script src='js/Path.Drag.js'></script> <!-- Drag polygon et map avec adaptation-->
     <script src='js/Leaflet.ImageOverlay.Rotated.js'></script><!--Pour deformer l'image et m'adapter-->
+    <script src='js/layerloader.js'></script><!-- layerloader -->
     <script src='js/script.js'></script><!-- Fichier de scripts perso-->
 
     <!--CSS-->
@@ -23,18 +24,20 @@
 
 <body onload="">
     <div id="map"></div>
-    <input type="file" id="gpx-input" /><br>
+  <!--  <input type="file" id="gpx-input" /><br>-->
     <input type="file" id="image-input" />
 </body>
 
 <script>
     document.getElementById('image-input')
         .addEventListener('change', readImage, false);
-    document.getElementById('gpx-input')
-        .addEventListener('change', readGPXFile, false);
+    /*document.getElementById('gpx-input')
+        .addEventListener('change', readGPXFile, false);*/
 
     // create the slippy map
     var map = new L.Map('map').setView([48, -1], 5);
+    map.doubleClickZoom.disable();
+
     var positron;
     positron = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
@@ -42,7 +45,26 @@
         maxZoom: 24
     }).addTo(map);
 
+    var controlgpx = L.Control.fileLayerLoad({
+
+        // Restrict accepted file formats (default: .geojson, .kml, and .gpx) ?
+        formats: [
+            '.gpx'
+        ]
+    }).addTo(map);
+   controlgpx.loader.on('data:loaded', function (e) {
+       // Add to map layer switcher
+       readGPXFile(e);
+   });
+
+   /*var controlimg = L.Control.fileLayerLoad().addTo(map);
+  controlimg.loader.on('data:loaded', function (e) {
+      // Add to map layer switcher
+      readImage(e);
+  });*/
+
     var hide = 0;
+    //L.easyButton( '<span class="opacity"></span>', function(){}).addTo(map);
     L.easyButton( '<span class="fa fa-eye-slash aria-hidden="true""></span>', function(){
 //desactivate the map
 if(hide==0){
