@@ -44,12 +44,29 @@
 
     // create the slippy map
     var map = new L.Map('map').setView([48, -1], 5);
-    var positron = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
+    var positron;
+    positron = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
         maxNativeZoom: 18,
         maxZoom: 24
     }).addTo(map);
 
+    var hide = 0;
+    L.easyButton( '<span class="fa fa-eye-slash aria-hidden="true""></span>', function(){
+//desactivate the map
+if(hide==0){
+  hide=1;
+  map.removeLayer(positron);
+}
+else{
+  hide=0;
+  positron = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
+      maxNativeZoom: 18,
+      maxZoom: 24
+  }).addTo(map);
+}
+}).addTo(map);
 
 </script>
 
