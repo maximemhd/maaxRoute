@@ -13,6 +13,7 @@
     <script src='js/Path.Drag.js'></script> <!-- Drag polygon et map avec adaptation-->
     <script src='js/Leaflet.ImageOverlay.Rotated.js'></script><!--Pour deformer l'image et m'adapter-->
     <script src='js/layerloader.js'></script><!-- layerloader -->
+    <script src='js/Chart.js'></script><!-- chart js -->
     <script src='js/script.js'></script><!-- Fichier de scripts perso-->
 
     <!--CSS-->
@@ -24,15 +25,16 @@
 
 <body onload="">
     <div id="map"></div>
-  <!--  <input type="file" id="gpx-input" /><br>-->
-    <input type="file" id="image-input" />
+    GPX: <input type="file" id="gpx-input" /></input><br>
+    Image : <input type="file" id="image-input" /></input><br>
+    <canvas id="myChart" width="80%" height="200px"></canvas>
 </body>
 
 <script>
     document.getElementById('image-input')
         .addEventListener('change', readImage, false);
-    /*document.getElementById('gpx-input')
-        .addEventListener('change', readGPXFile, false);*/
+    document.getElementById('gpx-input')
+        .addEventListener('change', readGPXFile, false);
 
     // create the slippy map
     var map = new L.Map('map').setView([48, -1], 5);
@@ -45,17 +47,18 @@
         maxZoom: 24
     }).addTo(map);
 
-    var controlgpx = L.Control.fileLayerLoad({
-
+    /*var controlgpx = L.Control.fileLayerLoad({
         // Restrict accepted file formats (default: .geojson, .kml, and .gpx) ?
         formats: [
             '.gpx'
         ]
     }).addTo(map);
+
    controlgpx.loader.on('data:loaded', function (e) {
        // Add to map layer switcher
-       readGPXFile(e);
-   });
+       data_is_loaded();
+
+   });*/
 
    /*var controlimg = L.Control.fileLayerLoad().addTo(map);
   controlimg.loader.on('data:loaded', function (e) {
@@ -82,7 +85,6 @@ else{
 }).addTo(map);
 
 </script>
-
 
 
 </html>
