@@ -109,7 +109,8 @@ function calculs(){
   var distance = [];
   var allures = [];
   var time = [];
-  var somme = 0;
+  var altitude = [];
+  var total_distance = 0;
   var denivele = 0;
   var allure;
 
@@ -134,14 +135,15 @@ function calculs(){
     }
 
     time.push(time1);
+    altitude.push(ele1);
 
-    somme += calcul_distance(lon1, lat1, lon2, lat2);
+    total_distance += calcul_distance(lon1, lat1, lon2, lat2);
     if(ele2-ele1>0){
       denivele += ele2-ele1
     }
 
   }
-  graph(lissage_allure(allures),time)
+  graph(lissage_allure(allures),parse_time(time),altitude)
   console.log(allures);
   console.log(denivele);
   return allures;
@@ -153,10 +155,21 @@ function calcul_allure(distance, temps){
   return allure;
 }
 
+function parse_time(time){
+  var duree = [];
+  var date0 = new Date(time[0]).getTime();
+
+  for(var i=0; i<time.length; i++){
+    duree.push(new Date(time[i]).getTime() - date0);
+  }
+
+  return duree;
+}
+
 function lissage_allure(allure){
 var allures_lisse = [];
-  for(var i=0; i<allure.length-1; i++){
-    allures_lisse.push((allure[i]+allure[i+1])/2);
+  for(var i=0; i<allure.length-3; i++){
+    allures_lisse.push((allure[i]+allure[i+1]+allure[i+2]+allure[i+3])/4);
   }
   return allures_lisse;
 }
@@ -171,24 +184,43 @@ function calcul_distance(lon1, lat1, lon2, lat2){
   return distance;
 }
 
-function graph(pace, time){
+function graph(pace, time, denivele){
   var ctx = document.getElementById("myChart").getContext('2d');
-  console.log(pace);
+  ctx.canvas.height = 500;
+  ctx.canvas.width = $(window).width()*0.8; 
+
+  console.log(denivele);
+  var pace_max = Math.max.apply(Math, pace);
+  var pace_min = Math.min.apply(Math, pace);
+  var d_max = Math.max.apply(Math, denivele);
+  var d_min = Math.min.apply(Math, denivele);
+
   var myChart = new Chart(ctx, {
       type: 'line',
       data: {
                 labels: time,
                 datasets: [{
-                    label: "My First dataset",
+                  yAxisID: 'A',
+                    label: "Pace",
                     //backgroundColor: window.chartColors.red,
                     //borderColor: window.chartColors.red,
                     data: pace,
                     fill: false,
-                }]
+                    radius: 0,
+                },
+              {
+                yAxisID: 'B',
+                label: "D+",
+                //backgroundColor: window.chartColors.red,
+                //borderColor: window.chartColors.red,
+                data: denivele,
+                fill: false,
+                radius: 1,
+              }]
             },
       options: {
-                responsive: true,
-                 maintainAspectRatio: false,
+                responsive: false,
+                 maintainAspectRatio: true,
                 title:{
                     display:true,
                     text:'Chart.js Line Chart'
@@ -210,15 +242,40 @@ function graph(pace, time){
                         }
                     }],
                     yAxes: [{
+                      id:'A',
                         display: true,
+                        ticks: {
+                          min:pace_min-1,
+                          max: pace_max+1,
+                          stepSize: 1,
+               reverse: true,
+                beginAtZero: true,
+           },
                         scaleLabel: {
                             display: true,
                             labelString: 'Value'
                         }
-                    }]
+                    },
+                    {
+                      id: 'B',
+                        display: true,
+                        ticks: {
+                          min:d_min-10,
+                          max: d_max+10,
+                          stepSize: 10,
+               reverse: false,
+                beginAtZero: true,
+           },
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Value'
+                        }
+                    }
+                  ]
                 }
             }
   });
+
 }
 
 //Conversion des degrés en radian
