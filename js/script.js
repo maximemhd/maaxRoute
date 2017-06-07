@@ -128,7 +128,7 @@ function calculs() {
     distance.push(calcul_distance(lon1, lat1, lon2, lat2));
     allure = calcul_allure(distance[i - 1], new Date(time1).getTime() - new Date(time2).getTime());
     if (allure > 25) {
-      allures.push(25);
+      allures.push(25.0);
     } else {
       allures.push(allure);
     }
@@ -142,7 +142,7 @@ function calculs() {
     }
 
   }
-  graph(lissage_allure(allures), parse_time(time), altitude)
+  graph(allures, parse_time(time), altitude)
   //console.log(allures);
   //console.log(denivele);
   return allures;
@@ -188,6 +188,7 @@ function parse_time(time) {
 function lissage_allure(allure) {
   var allures_lisse = [];
   for (var i = 0; i < allure.length - 3; i++) {
+    //calcul faux
     allures_lisse.push((allure[i] + allure[i + 1] + allure[i + 2] + allure[i + 3]) / 4);
   }
   return allures_lisse;
@@ -209,8 +210,18 @@ function graph(pace, time, denivele) {
   ctx.canvas.width = $(window).width() * 0.8;
 
   console.log(denivele);
+  console.log(pace)
   var pace_max = Math.max.apply(Math, pace);
   var pace_min = Math.min.apply(Math, pace);
+  if(pace_max){
+
+  }
+  else {
+    pace_max =25;
+    pace_min =0;
+  }
+  console.log(pace_max)
+  console.log(pace_min)
   var d_max = Math.max.apply(Math, denivele);
   var d_min = Math.min.apply(Math, denivele);
 
