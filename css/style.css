@@ -39,22 +39,3 @@ html, body,{
 .opacity{
   font-size: 0.7em;
 }
-.inputfile {
-	width: 0.1px;
-	height: 0.1px;
-	opacity: 0;
-	overflow: hidden;
-	position: absolute;
-	z-index: -1;
-}
-.inputfile + label {
-  /*  font-size: 1.25em;*/
-  /*  font-weight: 700;*/
-    color: rgb(109, 113, 117);
-    cursor: pointer; /* "hand" cursor */
-    display: inline-block;
-}
-
-.inputfile:focus + label,
-.inputfile + label:hover {
-}

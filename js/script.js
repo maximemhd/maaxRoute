@@ -1,64 +1,27 @@
-/*function trace_gpx() {
-  var gpx_data;
-  $.ajax('pyramide.gpx').done(function(xml) {
-    gpx_data = toGeoJSON.gpx(xml);
-    console.log(gpx_data);
-
-    var latlngs = [];
-
-    for (var i = 0; i < gpx_data.features[0].geometry.coordinates.length; i++) {
-      lon = gpx_data.features[0].geometry.coordinates[i][0];
-      lat = gpx_data.features[0].geometry.coordinates[i][1];
-      latlngs.push([lat, lon]);
-    }
-
-    console.log(latlngs);
-    var polyline = L.polyline(latlngs, {
-      color: 'red'
-    }).addTo(map);
-    // zoom the map to the polyline
-    polyline.dragging.enable();
-    polyline.enableEdit();
-
-    map.fitBounds(polyline.getBounds());
-
-  });
-}
-
-
-function trace_gpx_image() {
-  var gpx_data;
-  L.easyButton('fa-globe', function(btn, map) {
-    window.open("file:///");
-  }).addTo(map);
-
-  $.ajax('CO_MD_Le_Senequet.gpx').done(function(xml) {
-    gpx_data = toGeoJSON.gpx(xml);
-    console.log(gpx_data);
-
-    var latlngs = [];
-
-    for (var i = 0; i < gpx_data.features[0].geometry.coordinates.length; i++) {
-      lon = gpx_data.features[0].geometry.coordinates[i][0];
-      lat = gpx_data.features[0].geometry.coordinates[i][1];
-      latlngs.push([lat, lon]);
-    }
-
-
-    console.log(latlngs);
-    var polyline = L.polyline(latlngs, {
-      color: 'green'
-    }).addTo(map);
-    // zoom the map to the polyline
-    polyline.dragging.enable();
-
-
-  });
-
-}*/
-
 ///////// GPX //////////////////
 var gpx_data;
+
+function readGPXFile(e) {
+  var file = e.target.files[0];
+  console.log("fichier ok");
+  if (!file) {
+    return;
+  }
+  if (file.name.substring(file.name.lastIndexOf('.')) != ".gpx") {
+    //Alerte sur le format du fichier
+    alert('Choisir un fichier .gpx !');
+    return;
+  }
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    var contents = e.target.result;
+    load_gpx(contents);
+    var data = calculs();
+
+    //displayContents(contents);
+  };
+  reader.readAsText(file);
+}
 
 function load_gpx(contents) {
   //console.log(contents);
@@ -80,28 +43,6 @@ function load_gpx(contents) {
   // zoom the map to the polyline
   polyline.dragging.enable();
 
-}
-
-function readGPXFile(e) {
-  var file = e.target.files[0];
-  console.log("fichier ok");
-  if (!file) {
-    return;
-  }
-  if (file.name.substring(file.name.lastIndexOf('.')) != ".gpx") {
-    //Alerte sur le format du fichier
-    alert('Choisir un fichier gpx');
-    return;
-  }
-  var reader = new FileReader();
-  reader.onload = function(e) {
-    var contents = e.target.result;
-    load_gpx(contents);
-    var data = calculs();
-
-    //displayContents(contents);
-  };
-  reader.readAsText(file);
 }
 
 function calculs() {
@@ -209,19 +150,15 @@ function graph(pace, time, denivele) {
   ctx.canvas.height = 500;
   ctx.canvas.width = $(window).width() * 0.8;
 
-  console.log(denivele);
-  console.log(pace)
   var pace_max = Math.max.apply(Math, pace);
   var pace_min = Math.min.apply(Math, pace);
-  if(pace_max){
+  if (pace_max) {
 
+  } else {
+    pace_max = 25;
+    pace_min = 0;
   }
-  else {
-    pace_max =25;
-    pace_min =0;
-  }
-  console.log(pace_max)
-  console.log(pace_min)
+
   var d_max = Math.max.apply(Math, denivele);
   var d_min = Math.min.apply(Math, denivele);
 
