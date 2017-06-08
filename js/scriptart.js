@@ -98,6 +98,15 @@ function update_factor(value) {
   scale = value;
   document.getElementById('svg_image').innerHTML = "<polyline points=\"" + point_scale +
     "\"style=\"fill:none;stroke:white;stroke-width:2\" />";
+  return point_scale;
+}
+
+var x0 = 0;
+
+function move_x(value) {
+  var point_scale = update_factor(scale);
+  document.getElementById('svg_image').innerHTML = "<polyline points=\"" + point_scale +
+    "\"style=\"fill:none;stroke:white;stroke-width:2\" transform=\"translate(" + value + ")\" />";
 }
 
 function calculs() {
