@@ -112,7 +112,6 @@ function update_factor(value) {
   scale = value;
   document.getElementById('svg_image').innerHTML = "<polyline points=\"" + point_scale +
     "\"style=\"fill:none;stroke:white;stroke-width:2\" />";
-  return point_scale;
 }
 
 
