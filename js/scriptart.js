@@ -82,6 +82,20 @@ function load_gpx(contents) {
 }
 var scale = 1;
 
+function get_point(){
+  var points = document.getElementById('svg_image').innerHTML;
+  var str_array = points.split(' points=\"');
+  var data = str_array[1].split(' ');
+  var point_scale = new String('');
+  for (var i = 0; i < data.length - 2; i++) {
+    var xy = data[i].split(',');
+    var x = parseInt(xy[0]);
+    var y = parseInt(xy[1]);
+  point_scale = point_scale + x.toString() + "," + y.toString() + " ";
+  }
+  return point_scale
+}
+
 function update_factor(value) {
 
   var points = document.getElementById('svg_image').innerHTML;
@@ -101,10 +115,9 @@ function update_factor(value) {
   return point_scale;
 }
 
-var x0 = 0;
 
 function move_x(value) {
-  var point_scale = update_factor(scale);
+  var point_scale = get_point();
   document.getElementById('svg_image').innerHTML = "<polyline points=\"" + point_scale +
     "\"style=\"fill:none;stroke:white;stroke-width:2\" transform=\"translate(" + value + ")\" />";
 }
