@@ -22,10 +22,11 @@ function readGPXFile(e) {
   };
   reader.readAsText(file);
 }
-
+var name;
 function load_gpx(contents) {
   //console.log(contents);
   gpx_data = toGeoJSON.gpx(jQuery.parseXML(contents));
+  name = gpx_data.features[0].properties.name;
   console.log(gpx_data);
   var latlngs = [];
   var xtab = [];
@@ -75,13 +76,23 @@ function load_gpx(contents) {
 
   }
   //  console.log(points);
-
   document.getElementById('svg_image').innerHTML = "<polyline points=\"" + points +
     "\"style=\"fill:none;stroke:white;stroke-width:2\" />";
+    set_title(name);
 
 }
-var scale = 1;
 
+
+function set_title(name){
+document.getElementById('svg_image').innerHTML += "<text x=\"150\" y=\"350\" "+
+        "font-family=\"Helvetica\" text-anchor=\"middle\" "+
+        "fill = \"white\""+
+      "  font-size=\"18\">"+
+  name+
+  "</text>"
+}
+
+var scale = 1;
 function get_point(){
   var points = document.getElementById('svg_image').innerHTML;
   var str_array = points.split(' points=\"');
@@ -112,6 +123,7 @@ function update_factor(value) {
   scale = value;
   document.getElementById('svg_image').innerHTML = "<polyline points=\"" + point_scale +
     "\"style=\"fill:none;stroke:white;stroke-width:2\" />";
+    set_title(name);
 }
 
 
@@ -119,6 +131,7 @@ function move_x(value) {
   var point_scale = get_point();
   document.getElementById('svg_image').innerHTML = "<polyline points=\"" + point_scale +
     "\"style=\"fill:none;stroke:white;stroke-width:2\" transform=\"translate(" + value + ")\" />";
+    set_title(name);
 }
 
 function calculs() {

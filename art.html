@@ -10,6 +10,7 @@
     <script src='js/Chart.js'></script><!-- chart js -->
         <script src="js/togeojson.js"></script><!--Pour la conversion GPX(xml) ->geojson-->
     <script src='js/scriptart.js'></script><!-- Fichier de scripts perso-->
+    <script src="js/jscolor.min.js"></script>
 
     <!--CSS-->
     <link rel="stylesheet" href="css/style.css" />
@@ -21,17 +22,21 @@
 <body onload="">
 Fichier gpx: <input type="file" class="inputfile" id="gpx-input" /><br>
 <input type="range" min="1" max="10" value="1" step="0.5" onchange="update_factor(this.value)" /><br>
-<svg height="400" width="300" id="svg_image" style="background: rgb(227, 89, 10)"><br>
-  <input type="range" min="0" max="100" value="0" step="1" onchange="move_x(this.value)" /><br>
+<svg height="400" width="300" id="svg_image" style="background:#e3590a"><br>
 
 <!--<rect width="100%" height="100%"  />-->
-
 </svg>
+<input type="range" min="0" max="100" value="0" step="1" onchange="move_x(this.value)" /><br>
+<input class="jscolor" onchange="update(this.jscolor)" value="e3590a">
 </body>
 
 <script>
     document.getElementById('gpx-input')
         .addEventListener('change', readGPXFile, false);
+        function update(jscolor) {
+            // 'jscolor' instance can be used as a string
+            document.getElementById('svg_image').style.backgroundColor = '#' + jscolor
+        }
 </script>
 
 
