@@ -163,7 +163,7 @@ function set_borders(toogle) {
 }
 
 function save(){
-saveSvgAsPng(document.getElementById("svg_image"), "diagram.png");
+saveSvgAsPng(document.getElementById("svg_image"), "maaxart.png");
 }
 
 
