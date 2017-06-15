@@ -23,6 +23,7 @@ function readGPXFile(e) {
   reader.readAsText(file);
 }
 var name;
+
 function load_gpx(contents) {
   //console.log(contents);
   gpx_data = toGeoJSON.gpx(jQuery.parseXML(contents));
@@ -78,22 +79,23 @@ function load_gpx(contents) {
   //  console.log(points);
   document.getElementById('svg_image').innerHTML = "<polyline points=\"" + points +
     "\"style=\"fill:none;stroke:white;stroke-width:2\" />";
-    set_title(name);
+  set_title(name);
 
 }
 
 
-function set_title(name){
-document.getElementById('svg_image').innerHTML += "<text x=\"150\" y=\"350\" "+
-        "font-family=\"Helvetica\" text-anchor=\"middle\" "+
-        "fill = \"white\""+
-      "  font-size=\"18\">"+
-  name+
-  "</text>"
+function set_title(name) {
+  document.getElementById('svg_image').innerHTML += "<text x=\"150\" y=\"370\" " +
+    "font-family=\" Lato\" text-anchor=\"middle\" " +
+    "fill = \"white\"" +
+    "  font-size=\"18\">" +
+    name +
+    "</text>"
 }
 
 var scale = 1;
-function get_point(){
+
+function get_point() {
   var points = document.getElementById('svg_image').innerHTML;
   var str_array = points.split(' points=\"');
   var data = str_array[1].split(' ');
@@ -102,7 +104,7 @@ function get_point(){
     var xy = data[i].split(',');
     var x = parseInt(xy[0]);
     var y = parseInt(xy[1]);
-  point_scale = point_scale + x.toString() + "," + y.toString() + " ";
+    point_scale = point_scale + x.toString() + "," + y.toString() + " ";
   }
   return point_scale
 }
@@ -123,23 +125,47 @@ function update_factor(value) {
   scale = value;
   document.getElementById('svg_image').innerHTML = "<polyline points=\"" + point_scale +
     "\"style=\"fill:none;stroke:white;stroke-width:2\" />";
-    set_title(name);
+  set_title(name);
 }
 
+var x, y = 0;
 
 function move_x(value) {
+  x = value;
   var point_scale = get_point();
   document.getElementById('svg_image').innerHTML = "<polyline points=\"" + point_scale +
-    "\"style=\"fill:none;stroke:white;stroke-width:2\" transform=\"translate(" + value + ")\" />";
-    set_title(name);
+    "\"style=\"fill:none;stroke:white;stroke-width:2\" transform=\"translate(" + value + "," + y + ")\" />";
+  set_title(name);
+  //set_borders(0);
 }
 
 function move_y(value) {
+  y = value;
   var point_scale = get_point();
   document.getElementById('svg_image').innerHTML = "<polyline points=\"" + point_scale +
-    "\"style=\"fill:none;stroke:white;stroke-width:2\" transform=\"translate(0," + value + ")\" />";
-    set_title(name);
+    "\"style=\"fill:none;stroke:white;stroke-width:2\" transform=\"translate(" + x + "," + value + ")\" />";
+  set_title(name);
+  //set_borders(0);
 }
+
+var toggle = 0;
+
+function set_borders(toogle) {
+  toggle = 1 - toggle;
+  if (toggle == 1) {
+    document.getElementById('svg_image').innerHTML += "<rect x=\"10\" y=\"10\" width=\"280\" height=\"380\" stroke=\"white\" fill=\"blue\"" +
+      " fill-opacity=\"0\" stroke-opacity=\"1\"/>";
+  }else{
+    document.getElementById('svg_image').innerHTML -= "<rect x=\"10\" y=\"10\" width=\"280\" height=\"380\" stroke=\"white\" fill=\"blue\"" +
+      " fill-opacity=\"0\" stroke-opacity=\"1\"/>";
+  }
+
+}
+
+function save(){
+saveSvgAsPng(document.getElementById("svg_image"), "diagram.png");
+}
+
 
 function calculs() {
 
