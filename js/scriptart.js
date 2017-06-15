@@ -134,6 +134,13 @@ function move_x(value) {
     set_title(name);
 }
 
+function move_y(value) {
+  var point_scale = get_point();
+  document.getElementById('svg_image').innerHTML = "<polyline points=\"" + point_scale +
+    "\"style=\"fill:none;stroke:white;stroke-width:2\" transform=\"translate(0," + value + ")\" />";
+    set_title(name);
+}
+
 function calculs() {
 
   var distance = [];
