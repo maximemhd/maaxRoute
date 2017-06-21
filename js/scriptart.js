@@ -85,7 +85,7 @@ function load_gpx(contents) {
 
 
 function set_title(name) {
-  document.getElementById('svg_image').innerHTML += "<text x=\"200\" y=\"430\" " +
+  document.getElementById('svg_image').innerHTML += "<text x=\"200\" y=\"450\" " +
     "font-family=\" Lato\" text-anchor=\"middle\" " +
     "fill = \"white\"" +
     "  font-size=\"18\">" +
