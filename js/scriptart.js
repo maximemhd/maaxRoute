@@ -85,7 +85,7 @@ function load_gpx(contents) {
 
 
 function set_title(name) {
-  document.getElementById('svg_image').innerHTML += "<text x=\"150\" y=\"370\" " +
+  document.getElementById('svg_image').innerHTML += "<text x=\"200\" y=\"430\" " +
     "font-family=\" Lato\" text-anchor=\"middle\" " +
     "fill = \"white\"" +
     "  font-size=\"18\">" +
@@ -153,10 +153,10 @@ var toggle = 0;
 function set_borders(toogle) {
   toggle = 1 - toggle;
   if (toggle == 1) {
-    document.getElementById('svg_image').innerHTML += "<rect x=\"10\" y=\"10\" width=\"280\" height=\"380\" stroke=\"white\" fill=\"blue\"" +
+    document.getElementById('svg_image').innerHTML += "<rect x=\"10\" y=\"10\" width=\"380\" height=\"480\" stroke=\"white\" fill=\"blue\"" +
       " fill-opacity=\"0\" stroke-opacity=\"1\"/>";
   }else{
-    document.getElementById('svg_image').innerHTML -= "<rect x=\"10\" y=\"10\" width=\"280\" height=\"380\" stroke=\"white\" fill=\"blue\"" +
+    document.getElementById('svg_image').innerHTML -= "<rect x=\"10\" y=\"10\" width=\"380\" height=\"480\" stroke=\"white\" fill=\"blue\"" +
       " fill-opacity=\"0\" stroke-opacity=\"1\"/>";
   }
 
