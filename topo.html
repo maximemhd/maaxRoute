@@ -26,6 +26,10 @@ var map = L.mapbox.map('map')
 L.mapbox.styleLayer('mapbox://styles/maximemhd/cj487m11i1q392rph27vlbamc').addTo(map);
 L.control.fullscreen().addTo(map);
 map.addControl(L.mapbox.legendControl());
+L.control.layers({
+    'Mapbox Topo': L.mapbox.styleLayer('mapbox://styles/maximemhd/cj487m11i1q392rph27vlbamcs').addTo(map),
+    'Mapbox Orienteering': L.mapbox.styleLayer('mapbox://styles/maximemhd/cj0eeeken004d2spbl3biru64')
+}).addTo(map);
 </script>
 
 </body>
