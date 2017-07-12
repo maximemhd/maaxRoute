@@ -77,8 +77,8 @@ function load_gpx(contents) {
 
   }
   //  console.log(points);
-  document.getElementById('svg_image').innerHTML = "<polyline points=\"" + points +
-    "\"style=\"fill:none;stroke:white;stroke-width:2\" />";
+  document.getElementById('svg_image').innerHTML = "<polyline id=\"trace\" points=\"" + points +
+    "\"style=\"fill:none;stroke:"+colorTrace+";stroke-width:2\" />";
   set_title(name);
 
 }
@@ -86,8 +86,9 @@ function load_gpx(contents) {
 
 function set_title(name) {
   document.getElementById('svg_image').innerHTML += "<text x=\"200\" y=\"450\" " +
+  "id=\"title\""+
     "font-family=\" Lato\" text-anchor=\"middle\" " +
-    "fill = \"white\"" +
+    "fill = \""+colorTrace+"\"" +
     "  font-size=\"18\">" +
     name +
     "</text>"
@@ -123,8 +124,8 @@ function update_factor(value) {
   }
 
   scale = value;
-  document.getElementById('svg_image').innerHTML = "<polyline points=\"" + point_scale +
-    "\"style=\"fill:none;stroke:white;stroke-width:2\" />";
+  document.getElementById('svg_image').innerHTML = "<polyline id=\"trace\" points=\"" + point_scale +
+    "\"style=\"fill:none;stroke:"+colorTrace+";stroke-width:2\" />";
   set_title(name);
 }
 
@@ -133,8 +134,8 @@ var x, y = 0;
 function move_x(value) {
   x = value;
   var point_scale = get_point();
-  document.getElementById('svg_image').innerHTML = "<polyline points=\"" + point_scale +
-    "\"style=\"fill:none;stroke:white;stroke-width:2\" transform=\"translate(" + value + "," + y + ")\" />";
+  document.getElementById('svg_image').innerHTML = "<polyline id=\"trace\" points=\"" + point_scale +
+    "\"style=\"fill:none;stroke:"+colorTrace+";stroke-width:2\" transform=\"translate(" + value + "," + y + ")\" />";
   set_title(name);
   //set_borders(0);
 }
@@ -142,8 +143,8 @@ function move_x(value) {
 function move_y(value) {
   y = value;
   var point_scale = get_point();
-  document.getElementById('svg_image').innerHTML = "<polyline points=\"" + point_scale +
-    "\"style=\"fill:none;stroke:white;stroke-width:2\" transform=\"translate(" + x + "," + value + ")\" />";
+  document.getElementById('svg_image').innerHTML = "<polyline id=\"trace\" points=\"" + point_scale +
+    "\"style=\"fill:none;stroke:"+colorTrace+";stroke-width:2\" transform=\"translate(" + x + "," + value + ")\" />";
   set_title(name);
   //set_borders(0);
 }
@@ -153,13 +154,38 @@ var toggle = 0;
 function set_borders(toogle) {
   toggle = 1 - toggle;
   if (toggle == 1) {
-    document.getElementById('svg_image').innerHTML += "<rect x=\"10\" y=\"10\" width=\"380\" height=\"480\" stroke=\"white\" fill=\"blue\"" +
+    document.getElementById('svg_image').innerHTML += "<rect id=\"border\" x=\"10\" y=\"10\" width=\"380\" height=\"480\" stroke=\""+colorTrace+"\" fill=\"blue\"" +
       " fill-opacity=\"0\" stroke-opacity=\"1\"/>";
   }else{
-    document.getElementById('svg_image').innerHTML -= "<rect x=\"10\" y=\"10\" width=\"380\" height=\"480\" stroke=\"white\" fill=\"blue\"" +
+    document.getElementById('svg_image').innerHTML -= "<rect id=\"border\" x=\"10\" y=\"10\" width=\"380\" height=\"480\" stroke=\""+colorTrace+"\" fill=\"blue\"" +
       " fill-opacity=\"0\" stroke-opacity=\"1\"/>";
   }
 
+}
+
+function blackOutCenter() {
+ document.getElementById("svg_image").style.backgroundColor = "#333"; //setAttribute("fill", "#333");
+ document.getElementById("title").setAttribute("fill", "#000");
+ document.getElementById("trace").style.stroke = "#000"
+}
+
+var globalColor ="#e3590a";
+var inverse = 0;
+var color = globalColor;
+var colorTrace = "#fff";
+
+function inverse_color(){
+  inverse = 1 - inverse;
+  if (inverse == 1 ){
+    color = "#fff";
+    colorTrace = globalColor;
+  }else{
+color = globalColor;
+colorTrace = "#fff";
+  }
+  document.getElementById("svg_image").style.backgroundColor = color; //setAttribute("fill", "#333");
+  document.getElementById("title").setAttribute("fill", colorTrace);
+  document.getElementById("trace").style.stroke = colorTrace;
 }
 
 function save(){

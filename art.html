@@ -29,16 +29,19 @@ Zoom: <input type="range" min="1" max="10" value="1" step="0.5" onchange="update
 Move x:<input type="range" min="0" max="100" value="0" step="1" onchange="move_x(this.value)" /><br>
 Move y: <input type="range" min="0" max="200" value="0" step="1" onchange="move_y(this.value)" /><br>
 Border: To do at the end!<input type="button" name="dmc" onclick="set_borders()"><br>
-<input class="jscolor" onchange="update(this.jscolor)" value="e3590a">
+<input class="jscolor" onchange="update(this.jscolor)" value="e3590a"><br>
+<input type="button" value="Inverse color" name="dmc" onclick="inverse_color()"><br>
 <input type="button" value="Save to PNG" name="dmc" onclick="save()"><br>
 
 </body>
 
 <script>
+
     document.getElementById('gpx-input')
         .addEventListener('change', readGPXFile, false);
         function update(jscolor) {
             // 'jscolor' instance can be used as a string
+            globalColor = "#"+jscolor;
             document.getElementById('svg_image').style.backgroundColor = '#' + jscolor
         }
 </script>
