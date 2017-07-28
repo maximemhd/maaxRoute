@@ -82,7 +82,7 @@ function load_gpx(contents) {
     }
 
   }
-  //calculs();
+  calculs();
   //  console.log(points);
   athleteName = prompt("Enter your athlete name : ", "");
   document.getElementById('svg_image').innerHTML = "<polyline id=\"trace\" points=\"" + points +
@@ -264,7 +264,7 @@ saveSvgAsPng(document.getElementById("svg_image"), "maaxart.png");
 var total_distance = 0;
 
 function calculs() {
-
+total_distance = 0;
   var distance = [];
   var allures = [];
   var time = [];
