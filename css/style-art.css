@@ -1,9 +1,40 @@
-
+img{
+  margin: 0;
+  padding:0;
+}
 h2{
-  margin-top:20px;
+  margin: 0;
+  padding-top:10px;
   padding-left: 120px;
   font-family: "Verdana";
   font-weight: bold;
+}
+
+#myCanvas{
+  display: block;
+  float: bottom;
+}
+/*.canvas-layers { position:relative;}*/
+#canvas-container {
+  position: relative;
+  padding: 20px;
+  height: 600px;
+  background-color: #000000;
+  width: 500px;
+}
+
+#canvas-title {
+  position: absolute;
+  bottom:20px;
+  width: 500px;
+  height: 70px;
+  margin:0;
+  padding: 0;
+  border: none;
+  font-size: 12px;
+  text-align: left;
+  color: rgb(224, 224, 224);
+  background: #2b2b2b;
 }
 
 #container-map {
@@ -34,6 +65,24 @@ h2{
   text-align: left;
   color: rgb(224, 224, 224);
   background: #2b2b2b;
+}
+
+#titreMap p{
+  font-weight: bold;
+  font-style: normal;
+  font-family: "Verdana";
+  padding:0;
+  font-size: 12px;
+  text-align: left;
+  color: rgb(224, 224, 224);
+
+}
+.rubrique{
+  margin-left: 110px;
+  font-style: normal;
+  font-weight: bold;
+  font-family: "Verdana";
+  color:#ff0073;
 }
 
 .left {

@@ -1,5 +1,10 @@
 ///////// GPX //////////////////
 var gpx_data;
+var athleteName;
+var name;
+var title_set = 0;
+var nameGlobal;
+
 
 function readGPXFile(e) {
   var file = e.target.files[0];
@@ -22,7 +27,7 @@ function readGPXFile(e) {
   };
   reader.readAsText(file);
 }
-var name;
+
 
 function load_gpx(contents) {
   //console.log(contents);
@@ -77,7 +82,9 @@ function load_gpx(contents) {
     }
 
   }
+  calculs();
   //  console.log(points);
+  athleteName = prompt("Enter your athlete name : ", "");
   document.getElementById('svg_image').innerHTML = "<polyline id=\"trace\" points=\"" + points +
     "\"style=\"fill:none;stroke:"+colorTrace+";stroke-width:2\" />";
   set_title(name);
@@ -111,7 +118,8 @@ map.fitBounds(bbox,{
   padding: {top: 40, bottom:100, left: 40, right: 40}
 });
 }
-var title_set = 0;
+
+
 function set_title(name) {
   document.getElementById('svg_image').innerHTML += "<text x=\"250\" y=\"550\" " +
   "id=\"title\""+
@@ -121,9 +129,38 @@ function set_title(name) {
     name +
     "</text>";
     if(title_set==0){
-      document.getElementById('titreMap').innerHTML += "<h2>"+name+"</h2>";
-      title_set =1;
+      document.getElementById('titreMap').innerHTML += "<h2>"+name+"</h2><p><i class=\"rubrique\">Athlete: </i> "+athleteName+"<i class=\"rubrique\">Distance: </i> "+total_distance.toFixed(2)+"km</p>";
+      nameGlobal = name;
+      title_set = 1;
     }
+}
+
+function mapToImage(){
+var mapCanvas = map.getCanvas();
+var myCanvas = document.getElementById('myCanvas');
+myCanvas.innerHTML = "<div id=\"canvas-container\">  <div id=\"canvas-content\"></div><div id=\"canvas-title\"></div></div>"
+var myCanvasContent = document.getElementById('canvas-content');
+var myCanvasTitle = document.getElementById('canvas-title');
+
+//myCanvasContent.appendChild(mapCanvas);
+myCanvasContent.innerHTML = "<img width=\"500\" height=\"600\" src=\""+mapCanvas.toDataURL('image/jpeg', 1.0)+"\"</img>";
+myCanvasTitle.innerHTML ="<h2>"+name+
+                          "</h2><p><i class=\"rubrique\">Athlete: </i> "+
+                          athleteName+"<i class=\"rubrique\">Distance: </i> "+
+                          total_distance.toFixed(2)+"km</p>";
+
+var backgroundDiv;
+html2canvas(document.getElementById('myCanvas'), {
+onrendered: function(canvas) {
+
+canvas.toBlob(function(blob) {
+    saveAs(blob, "maaxmapart.png");
+});
+}
+//width: 300,
+//height: 300
+});
+
 }
 
 var scale = 1;
@@ -224,6 +261,7 @@ function save(){
 saveSvgAsPng(document.getElementById("svg_image"), "maaxart.png");
 }
 
+var total_distance = 0;
 
 function calculs() {
 
@@ -231,7 +269,6 @@ function calculs() {
   var allures = [];
   var time = [];
   var altitude = [];
-  var total_distance = 0;
   var denivele = 0;
   var allure;
 
@@ -243,18 +280,18 @@ function calculs() {
     lat2 = gpx_data.features[0].geometry.coordinates[i - 1][1];
     ele1 = gpx_data.features[0].geometry.coordinates[i][2];
     ele2 = gpx_data.features[0].geometry.coordinates[i - 1][2];
-    time1 = gpx_data.features[0].properties.coordTimes[i];
-    time2 = gpx_data.features[0].properties.coordTimes[i - 1];
+    //time1 = gpx_data.features[0].properties.coordTimes[i];
+    //time2 = gpx_data.features[0].properties.coordTimes[i - 1];
 
     distance.push(calcul_distance(lon1, lat1, lon2, lat2));
-    allure = calcul_allure(distance[i - 1], new Date(time1).getTime() - new Date(time2).getTime());
+  /*  allure = calcul_allure(distance[i - 1], new Date(time1).getTime() - new Date(time2).getTime());
     if (allure > 25) {
       allures.push(25.0);
     } else {
       allures.push(allure);
     }
 
-    time.push(time1);
+    time.push(time1);*/
     altitude.push(ele1);
 
     total_distance += calcul_distance(lon1, lat1, lon2, lat2);

@@ -16,6 +16,8 @@
   <!-- Fichier de scripts perso-->
   <script src="js/jscolor.min.js"></script>
   <script src="js/svgToPng.js"></script>
+  <script src="js/html2canvas.js"></script>
+  <script src="js/FileSaver.js"></script>
 
   <!--CSS-->
   <link rel="stylesheet" href="css/style-art.css" />
@@ -39,14 +41,19 @@
     <input class="jscolor" onchange="update(this.jscolor)" value="e3590a"><br>
     <input type="button" value="Inverse color" name="dmc" onclick="inverse_color()"><br>
     <input type="button" value="Save to PNG" name="dmc" onclick="save()"><br>
+    <br><div id="myCanvas" class="canvas-layers">
+
+    </div>
   </div>
   <div class="right">
     <div id="container-map">
       <div id='map'></div>
       <br/>
       <div id="titreMap"></div>
-    </div>
+    </div><br></br>
+    <input type="button" value="Save to PNG" name="dmc" onclick="mapToImage()"><br>
   </div>
+
   <br></br>
 </body>
 
@@ -54,6 +61,7 @@
   mapboxgl.accessToken = 'pk.eyJ1IjoibWF4aW1lbWhkIiwiYSI6ImNpengxNml1ejAwMTMyd2x1bG44MGZlcjAifQ.-iUdgy0tRNYpd5q1fGqVtQ';
   var map = new mapboxgl.Map({
     container: 'map',
+    preserveDrawingBuffer: "true",
     style: 'mapbox://styles/maximemhd/cj5nntabb4ioe2smt43n85qa0',
     zoom: 5,
     center: [1.333333, 47]
