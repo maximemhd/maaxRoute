@@ -8,16 +8,19 @@
     <!--Scripts-->
     <script src='js/jquery.js'></script> <!-- Pour parser gpx apres chargement parseXML-->
     <script src='js/Chart.js'></script><!-- chart js -->
-        <script src="js/togeojson.js"></script><!--Pour la conversion GPX(xml) ->geojson-->
+    <script src="js/togeojson.js"></script><!--Pour la conversion GPX(xml) ->geojson-->
     <script src='js/scriptart.js'></script><!-- Fichier de scripts perso-->
     <script src="js/jscolor.min.js"></script>
     <script src="js/svgToPng.js"></script>
 
     <!--CSS-->
-    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/style-art.css" />
     <link rel="stylesheet" href="leaflet/leaflet.css" />
     <link rel="stylesheet" href="css/easy-button.css" />
     <link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.min.css">
+
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.39.1/mapbox-gl.js'></script>
+ <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.39.1/mapbox-gl.css' rel='stylesheet' />
 </head>
 
 <body onload="">
@@ -33,10 +36,21 @@ Border: To do at the end!<input type="button" name="dmc" onclick="set_borders()"
 <input type="button" value="Inverse color" name="dmc" onclick="inverse_color()"><br>
 <input type="button" value="Save to PNG" name="dmc" onclick="save()"><br>
 
+<div id="container-map">
+  <div class='custom-popup' id='map'></div>
+</div>
 </body>
 
 <script>
-
+mapboxgl.accessToken = 'pk.eyJ1IjoibWF4aW1lbWhkIiwiYSI6ImNpengxNml1ejAwMTMyd2x1bG44MGZlcjAifQ.-iUdgy0tRNYpd5q1fGqVtQ';
+var map = new mapboxgl.Map({
+    container: 'map',
+    style: 'mapbox://styles/mapbox/dark',
+    zoom: 13,
+    center: [4.899, 52.372]
+});
+</script>
+<script>
     document.getElementById('gpx-input')
         .addEventListener('change', readGPXFile, false);
         function update(jscolor) {
