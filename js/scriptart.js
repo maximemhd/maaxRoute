@@ -111,16 +111,19 @@ map.fitBounds(bbox,{
   padding: {top: 40, bottom:100, left: 40, right: 40}
 });
 }
-
+var title_set = 0;
 function set_title(name) {
-  document.getElementById('svg_image').innerHTML += "<text x=\"200\" y=\"450\" " +
+  document.getElementById('svg_image').innerHTML += "<text x=\"250\" y=\"550\" " +
   "id=\"title\""+
     "font-family=\" Lato\" text-anchor=\"middle\" " +
     "fill = \""+colorTrace+"\"" +
     "  font-size=\"18\">" +
     name +
     "</text>";
-    document.getElementById('titreMap').innerHTML += "<h2>"+name+"</h2>"
+    if(title_set==0){
+      document.getElementById('titreMap').innerHTML += "<h2>"+name+"</h2>";
+      title_set =1;
+    }
 }
 
 var scale = 1;
@@ -183,10 +186,10 @@ var toggle = 0;
 function set_borders(toogle) {
   toggle = 1 - toggle;
   if (toggle == 1) {
-    document.getElementById('svg_image').innerHTML += "<rect id=\"border\" x=\"10\" y=\"10\" width=\"380\" height=\"480\" stroke=\""+colorTrace+"\" fill=\"blue\"" +
+    document.getElementById('svg_image').innerHTML += "<rect id=\"border\" x=\"10\" y=\"10\" width=\"480\" height=\"580\" stroke=\""+colorTrace+"\" fill=\"blue\"" +
       " fill-opacity=\"0\" stroke-opacity=\"1\"/>";
   }else{
-    document.getElementById('svg_image').innerHTML -= "<rect id=\"border\" x=\"10\" y=\"10\" width=\"380\" height=\"480\" stroke=\""+colorTrace+"\" fill=\"blue\"" +
+    document.getElementById('svg_image').innerHTML -= "<rect id=\"border\" x=\"10\" y=\"10\" width=\"480\" height=\"580\" stroke=\""+colorTrace+"\" fill=\"blue\"" +
       " fill-opacity=\"0\" stroke-opacity=\"1\"/>";
   }
 
@@ -319,111 +322,6 @@ function calcul_distance(lon1, lat1, lon2, lat2) {
 
   return distance;
 }
-
-/*function graph(pace, time, denivele) {
-  var ctx = document.getElementById("myChart").getContext('2d');
-  ctx.canvas.height = 500;
-  ctx.canvas.width = $(window).width() * 0.8;
-
-  var pace_max = Math.max.apply(Math, pace);
-  var pace_min = Math.min.apply(Math, pace);
-  if (pace_max) {
-
-  } else {
-    pace_max = 25;
-    pace_min = 0;
-  }
-
-  var d_max = Math.max.apply(Math, denivele);
-  var d_min = Math.min.apply(Math, denivele);
-
-  var myChart = new Chart(ctx, {
-    type: 'line',
-    data: {
-      labels: time,
-      datasets: [{
-          yAxisID: 'A',
-          label: "Pace (min/km)",
-          borderColor: "#4e6e9d",
-          data: pace,
-          fill: false,
-          radius: 0,
-        },
-        {
-          yAxisID: 'B',
-          label: "D+",
-          backgroundColor: "#eceaea",
-          borderColor: "#b3b3b3",
-          data: denivele,
-          fill: false,
-          fillOpacity: 0.1,
-          radius: 1,
-        }
-      ]
-    },
-    options: {
-      responsive: false,
-      maintainAspectRatio: true,
-      title: {
-        display: true,
-        text: 'Pace and grade graph'
-      },
-      tooltips: {
-        mode: 'index',
-        intersect: false,
-      },
-      hover: {
-        mode: 'nearest',
-        intersect: true
-      },
-      scales: {
-        xAxes: [{
-          display: true,
-          scaleLabel: {
-            display: true,
-            labelString: 'Month'
-          }
-        }],
-        yAxes: [{
-            id: 'A',
-            display: true,
-            ticks: {
-              min: pace_min - 1,
-              max: pace_max + 1,
-              stepSize: 1,
-              reverse: true,
-              beginAtZero: true,
-            },
-            scaleLabel: {
-              display: true,
-              labelString: 'Value'
-            }
-          },
-          {
-            id: 'B',
-            display: true,
-            ticks: {
-              min: d_min - 10,
-              max: d_max + 10,
-              stepSize: 10,
-              reverse: false,
-              beginAtZero: true,
-            },
-            scaleLabel: {
-              display: true,
-              labelString: 'Value'
-            }
-          }
-        ],
-        xAxes: [{
-          beginAtZero: true,
-          stepSize: 50,
-        }]
-      }
-    }
-  });
-
-}*/
 
 //Conversion des degrés en radian
 function convertRad(input) {
