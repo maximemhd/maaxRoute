@@ -27,6 +27,7 @@ var name;
 function load_gpx(contents) {
   //console.log(contents);
   gpx_data = toGeoJSON.gpx(jQuery.parseXML(contents));
+  displayOnMap(gpx_data);
   name = gpx_data.features[0].properties.name;
   console.log(gpx_data);
   var latlngs = [];
@@ -83,6 +84,33 @@ function load_gpx(contents) {
 
 }
 
+function displayOnMap(myGeoJSON){
+/*  map.addSource('maTrace', {
+    type: 'geojson',
+    data: myGeoJSON
+});*/
+var gpxLayer = {
+        "id": "route",
+        "type": "line",
+        "source": {
+            "type": "geojson",
+            "data": myGeoJSON
+        },
+        "layout": {
+            "line-join": "round",
+            "line-cap": "round"
+        },
+        "paint": {
+            "line-color": "#ff0073",
+            "line-width": 1
+        }
+    };
+map.addLayer(gpxLayer);
+var bbox = turf.extent(myGeoJSON);
+map.fitBounds(bbox,{
+  padding: {top: 40, bottom:100, left: 40, right: 40}
+});
+}
 
 function set_title(name) {
   document.getElementById('svg_image').innerHTML += "<text x=\"200\" y=\"450\" " +
@@ -91,7 +119,8 @@ function set_title(name) {
     "fill = \""+colorTrace+"\"" +
     "  font-size=\"18\">" +
     name +
-    "</text>"
+    "</text>";
+    document.getElementById('titreMap').innerHTML += "<h2>"+name+"</h2>"
 }
 
 var scale = 1;

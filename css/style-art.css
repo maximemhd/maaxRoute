@@ -1,8 +1,49 @@
-#container-map{
-height:100%;
-margin-bottom: 20px;
+
+h2{
+  margin-top:10px;
+  padding-left: 120px;
+  font-family: "Verdana";
+  font-weight: bold;
 }
 
+#container-map {}
+
 #map {
-  height:100%;
+  position: relative;
+  top: 30px;
+  width: 500px;
+  height: 600px;
+  margin:0;
+}
+
+#titreMap {
+  display: block;
+  position: absolute;
+  top: 600px;
+  width: 500px;
+  height: 70px;
+  margin: 0;
+  padding: 0;
+  border: none;
+  border-radius: 3px;
+  font-size: 12px;
+  text-align: left;
+  color: rgb(224, 224, 224);
+  background: #2b2b2b;
+}
+
+.left {
+  display: block;
+  float: left;
+  width: 40%;
+  min-height: 100px;
+  margin-right: 40px;
+}
+
+.right {
+  display: block;
+  float: left;
+  width:40%;
+  margin-left: 40px;
+  min-height: 400px;
 }

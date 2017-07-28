@@ -19,12 +19,14 @@
     <link rel="stylesheet" href="css/easy-button.css" />
     <link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.min.css">
 
-    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.39.1/mapbox-gl.js'></script>
- <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.39.1/mapbox-gl.css' rel='stylesheet' />
+    <script src='https://api.mapbox.com/mapbox-gl-js/v0.39.1/mapbox-gl.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v0.39.1/mapbox-gl.css' rel='stylesheet' />
+    <script src='https://api.mapbox.com/mapbox.js/plugins/turf/v2.0.2/turf.min.js'></script>
 </head>
 
 <body onload="">
 Fichier gpx: <input type="file" class="inputfile" id="gpx-input" /><br>
+ <div class="left">
 Zoom: <input type="range" min="1" max="10" value="1" step="0.5" onchange="update_factor(this.value)" /><br>
 <svg height="500" width="400" id="svg_image" style="background:#e3590a"><br>
 
@@ -35,9 +37,13 @@ Border: To do at the end!<input type="button" name="dmc" onclick="set_borders()"
 <input class="jscolor" onchange="update(this.jscolor)" value="e3590a"><br>
 <input type="button" value="Inverse color" name="dmc" onclick="inverse_color()"><br>
 <input type="button" value="Save to PNG" name="dmc" onclick="save()"><br>
+</div>
+<div class="right">
 
-<div id="container-map">
-  <div class='custom-popup' id='map'></div>
+  <div id='map'></div>
+  <br/>
+<div id="titreMap"></div>
+
 </div>
 </body>
 
@@ -45,9 +51,9 @@ Border: To do at the end!<input type="button" name="dmc" onclick="set_borders()"
 mapboxgl.accessToken = 'pk.eyJ1IjoibWF4aW1lbWhkIiwiYSI6ImNpengxNml1ejAwMTMyd2x1bG44MGZlcjAifQ.-iUdgy0tRNYpd5q1fGqVtQ';
 var map = new mapboxgl.Map({
     container: 'map',
-    style: 'mapbox://styles/mapbox/dark',
-    zoom: 13,
-    center: [4.899, 52.372]
+    style: 'mapbox://styles/maximemhd/cj5nntabb4ioe2smt43n85qa0',
+    zoom: 5,
+    center: [1.333333, 47]
 });
 </script>
 <script>
